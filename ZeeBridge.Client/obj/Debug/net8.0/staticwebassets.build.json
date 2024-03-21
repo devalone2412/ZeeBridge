@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "2m8KP/09QilBxLct77nDWga1K08HQNioWS24uDKRXKY=",
+  "Source": "ZeeBridge.Client",
+  "BasePath": "_content/ZeeBridge.Client",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

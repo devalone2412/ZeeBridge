@@ -1,0 +1,6 @@
+@ZeeBridge.Client_HostAddress = http://localhost:5080
+
+GET {{ZeeBridge.Client_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

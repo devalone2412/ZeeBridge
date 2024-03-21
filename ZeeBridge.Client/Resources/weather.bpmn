@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0c36ju0" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.20.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.4.0">
+  <bpmn:process id="GetWeatherProcess" name="Get Weather" isExecutable="true">
+    <bpmn:extensionElements />
+    <bpmn:sequenceFlow id="Flow_1kqmn6u" sourceRef="GetWeatherRequestReceivedStartEvent" targetRef="GetWeatherAPIInformationTask" />
+    <bpmn:scriptTask id="GetWeatherAPIInformationTask" name="Get Weather API information">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="get-weather-api-information" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1kqmn6u</bpmn:incoming>
+      <bpmn:outgoing>Flow_1lj4gks</bpmn:outgoing>
+    </bpmn:scriptTask>
+    <bpmn:serviceTask id="GetWeatherInformationTask" name="Get Weather information">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="get-weather-information" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>YesSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_1m3kn91</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Event_0o9ap6n">
+      <bpmn:incoming>Flow_1m3kn91</bpmn:incoming>
+      <bpmn:incoming>Flow_1kk34pq</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1m3kn91" sourceRef="GetWeatherInformationTask" targetRef="Event_0o9ap6n" />
+    <bpmn:exclusiveGateway id="HasAPIInformationGateway" name="Has API information?" default="NoSequenceFlow">
+      <bpmn:incoming>Flow_1lj4gks</bpmn:incoming>
+      <bpmn:outgoing>YesSequenceFlow</bpmn:outgoing>
+      <bpmn:outgoing>NoSequenceFlow</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_1lj4gks" sourceRef="GetWeatherAPIInformationTask" targetRef="HasAPIInformationGateway" />
+    <bpmn:sequenceFlow id="YesSequenceFlow" name="Yes" sourceRef="HasAPIInformationGateway" targetRef="GetWeatherInformationTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=isEmpty = false</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="NoSequenceFlow" name="No" sourceRef="HasAPIInformationGateway" targetRef="SaveLogTask" />
+    <bpmn:scriptTask id="SaveLogTask" name="Save log">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="save-log" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>NoSequenceFlow</bpmn:incoming>
+      <bpmn:outgoing>Flow_1kk34pq</bpmn:outgoing>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="Flow_1kk34pq" sourceRef="SaveLogTask" targetRef="Event_0o9ap6n" />
+    <bpmn:startEvent id="GetWeatherRequestReceivedStartEvent" name="Get weather request received">
+      <bpmn:outgoing>Flow_1kqmn6u</bpmn:outgoing>
+    </bpmn:startEvent>
+  </bpmn:process>
+  <bpmn:message id="Message_3ie61no" name="get_weather_request_received" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="GetWeatherProcess">
+      <bpmndi:BPMNShape id="Activity_14q5u8k_di" bpmnElement="GetWeatherAPIInformationTask">
+        <dc:Bounds x="240" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1k96ed1_di" bpmnElement="GetWeatherInformationTask">
+        <dc:Bounds x="530" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0o9ap6n_di" bpmnElement="Event_0o9ap6n">
+        <dc:Bounds x="712" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1xc4mig_di" bpmnElement="HasAPIInformationGateway" isMarkerVisible="true">
+        <dc:Bounds x="395" y="95" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="390" y="65" width="61" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_086zz9e_di" bpmnElement="SaveLogTask">
+        <dc:Bounds x="530" y="190" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_19nunea_di" bpmnElement="GetWeatherRequestReceivedStartEvent">
+        <dc:Bounds x="152" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="130" y="145" width="82" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1kqmn6u_di" bpmnElement="Flow_1kqmn6u">
+        <di:waypoint x="188" y="120" />
+        <di:waypoint x="240" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1m3kn91_di" bpmnElement="Flow_1m3kn91">
+        <di:waypoint x="630" y="120" />
+        <di:waypoint x="712" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1lj4gks_di" bpmnElement="Flow_1lj4gks">
+        <di:waypoint x="340" y="120" />
+        <di:waypoint x="395" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1peinhp_di" bpmnElement="YesSequenceFlow">
+        <di:waypoint x="445" y="120" />
+        <di:waypoint x="530" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="451" y="102" width="18" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0kqegte_di" bpmnElement="NoSequenceFlow">
+        <di:waypoint x="420" y="145" />
+        <di:waypoint x="420" y="230" />
+        <di:waypoint x="530" y="230" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="428" y="163" width="15" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1kk34pq_di" bpmnElement="Flow_1kk34pq">
+        <di:waypoint x="630" y="230" />
+        <di:waypoint x="730" y="230" />
+        <di:waypoint x="730" y="138" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
