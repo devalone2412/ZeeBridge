@@ -1,6 +1,11 @@
 ﻿namespace ZeeBridge.Attributes;
 
-public class JobTypeAttribute(string jobType) : Attribute
+public class JobTypeAttribute : Attribute
 {
-    internal readonly string JobType = jobType;
+    internal readonly string JobType;
+
+    public JobTypeAttribute(string jobType)
+    {
+        JobType = jobType;
+    }
 }

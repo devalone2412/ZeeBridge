@@ -1,7 +1,6 @@
 using Grpc.Core;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Zeebe.Client;
 using ZeeBridge.Exceptions;
 using ZeeBridge.Interfaces;
 
@@ -9,10 +8,10 @@ namespace ZeeBridge.Resources;
 
 public class ZeebeResourceDeploymentWithDirectory : ZeebeResourceDeployment
 {
-    private readonly IServiceProvider _serviceProvider;
     private readonly string _directoryPath;
-    private readonly List<string> _resources = [];
     private readonly ILogger<ZeebeResourceDeploymentWithDirectory> _logger;
+    private readonly List<string> _resources = new();
+    private readonly IServiceProvider _serviceProvider;
 
     public ZeebeResourceDeploymentWithDirectory(IServiceProvider serviceProvider, string directoryPath) : base(
         serviceProvider)
@@ -24,10 +23,7 @@ public class ZeebeResourceDeploymentWithDirectory : ZeebeResourceDeployment
 
     public ZeebeResourceDeploymentWithDirectory AddResource(string resource)
     {
-        if (string.IsNullOrEmpty(resource))
-        {
-            throw new ArgumentException("Resource must not be null or empty.");
-        }
+        if (string.IsNullOrEmpty(resource)) throw new ArgumentException("Resource must not be null or empty.");
 
         _resources.Add(resource);
         return this;
@@ -36,13 +32,11 @@ public class ZeebeResourceDeploymentWithDirectory : ZeebeResourceDeployment
     public async void Deploy()
     {
         if (_resources.Count == 0)
-        {
             throw new ArgumentException("Illegal call to Deploy() - please add resources first.");
-        }
 
         using var serviceScope = _serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope();
         var zeeBridgeClient = serviceScope.ServiceProvider.GetService<IZeeBridgeClient>();
-        
+
         try
         {
             var deploymentResponse = await zeeBridgeClient!.DeployResource(_directoryPath, _resources);

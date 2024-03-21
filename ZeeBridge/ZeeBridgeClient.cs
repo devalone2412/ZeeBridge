@@ -14,7 +14,7 @@ public class ZeeBridgeClient : IZeeBridgeClient
 {
     private readonly IZeebeClient _zeebeClient;
     private readonly ZeebeClientConfigOption _zeebeClientConfigOption;
-    private IServiceProvider _serviceProvider;
+    private readonly IServiceProvider _serviceProvider;
 
     internal ZeeBridgeClient(IZeebeClient zeebeClient, ZeebeClientConfigOption zeebeClientConfigOption,
         IServiceProvider serviceProvider)
@@ -35,32 +35,27 @@ public class ZeeBridgeClient : IZeeBridgeClient
         return deploymentCommand.Send();
     }
 
-    public Task<IJobWorker> CreateWorker(JobWorkerInfo jobWorkerInfo, CancellationToken cancellationToken)
+    Task<IJobWorker> IZeeBridgeClient.CreateWorker(JobWorkerInfo jobWorkerInfo, CancellationToken cancellationToken)
     {
         var workerConfigs = _zeebeClientConfigOption.WorkerConfig;
+
+        var maxJobActive = jobWorkerInfo.MaxJobsActive ?? workerConfigs?.MaxJobsActive ?? 1;
+
+        var defaultPollInterval = workerConfigs?.PollInterval ?? 1;
+        var pollInterval = jobWorkerInfo.PollInterval ?? TimeSpan.FromSeconds(defaultPollInterval);
+
+        var defaultExecutionTimeout = workerConfigs?.ExecutionTimeout ?? 10;
+        var executionTimeout = jobWorkerInfo.ExecutionTimeout ?? TimeSpan.FromSeconds(defaultExecutionTimeout);
 
         return Task.FromResult(_zeebeClient.NewWorker()
             .JobType(jobWorkerInfo.JobType)
             .Handler((client, job) => Handler(client, job, jobWorkerInfo.Handler, cancellationToken))
-            .MaxJobsActive(jobWorkerInfo.MaxJobsActive ?? workerConfigs.MaxJobsActive)
+            .MaxJobsActive(maxJobActive)
             .Name(jobWorkerInfo.WorkerName ?? Environment.MachineName)
             .AutoCompletion()
-            .PollingTimeout(jobWorkerInfo.PollInterval ?? TimeSpan.FromSeconds(workerConfigs.PollInterval))
-            .Timeout(jobWorkerInfo.ExecutionTimeout ?? TimeSpan.FromSeconds(workerConfigs.ExecutionTimeout))
+            .PollingTimeout(pollInterval)
+            .Timeout(executionTimeout)
             .Open());
-    }
-
-    private Task Handler(IJobClient client, IJob job, MethodInfo handler, CancellationToken cancellationToken)
-    {
-        cancellationToken.ThrowIfCancellationRequested();
-        var handlerInstance = _serviceProvider.GetService(handler.ReflectedType);
-        if (handlerInstance is null)
-        {
-            throw new InvalidOperationException($"Ther is no service registered for {handler.ReflectedType}");
-        }
-
-        handler.Invoke(handlerInstance, new object[] { client, job, cancellationToken });
-        return Task.CompletedTask;
     }
 
     public void StartMessageEvent(string messageName, object? data = null)
@@ -75,10 +70,8 @@ public class ZeeBridgeClient : IZeeBridgeClient
             .LatestVersion();
 
         if (data is not null)
-        {
             startEventCommand
                 .Variables(data.ToJson());
-        }
 
         return startEventCommand.Send();
     }
@@ -90,10 +83,8 @@ public class ZeeBridgeClient : IZeeBridgeClient
             .Version(version);
 
         if (data is not null)
-        {
             startEventCommand
                 .Variables(data.ToJson());
-        }
 
         return startEventCommand.Send();
     }
@@ -105,10 +96,8 @@ public class ZeeBridgeClient : IZeeBridgeClient
             .LatestVersion();
 
         if (data is not null)
-        {
             startEventCommand
                 .Variables(data.ToJson());
-        }
 
         var result = await startEventCommand
             .WithResult()
@@ -124,15 +113,25 @@ public class ZeeBridgeClient : IZeeBridgeClient
             .Version(version);
 
         if (data is not null)
-        {
             startEventCommand
                 .Variables(data.ToJson());
-        }
 
         var result = await startEventCommand
             .WithResult()
             .Send();
 
         return JsonSerializer.Deserialize<T>(result.Variables);
+    }
+
+    private Task Handler(IJobClient client, IJob job, MethodInfo handler, CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        var handlerInstance = _serviceProvider.GetService(handler.ReflectedType);
+        if (handlerInstance is null)
+            throw new InvalidOperationException($"Ther is no service registered for {handler.ReflectedType}");
+
+        job.SetJobClient(client);
+        handler.Invoke(handlerInstance, new object[] { job, cancellationToken });
+        return Task.CompletedTask;
     }
 }

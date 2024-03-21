@@ -1,6 +1,11 @@
 ﻿namespace ZeeBridge.Attributes;
 
-public class ExecutionTimeoutAttribute(int executionTimeout) : Attribute
+public class ExecutionTimeoutAttribute : Attribute
 {
-    internal TimeSpan ExecutionTimeout = TimeSpan.FromSeconds(executionTimeout);
+    internal TimeSpan ExecutionTimeout;
+
+    public ExecutionTimeoutAttribute(int executionTimeout)
+    {
+        ExecutionTimeout = TimeSpan.FromSeconds(executionTimeout);
+    }
 }

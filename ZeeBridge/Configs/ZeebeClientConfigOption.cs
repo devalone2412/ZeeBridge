@@ -1,23 +1,23 @@
 ﻿namespace ZeeBridge.Configs;
 
-public class ZeebeClientConfigOption
+internal class ZeebeClientConfigOption
 {
     public static string SectionName = "ZeebeClientConfig";
 
-    public required ClientConfig ClientConfig { get; init; }
+    public ClientConfig ClientConfig { get; init; }
     public WorkerConfig? WorkerConfig { get; init; }
 }
 
-public class WorkerConfig
+internal class WorkerConfig
 {
-    public int MaxJobsActive { get; init; } = 1;
-    public int PollInterval { get; init; } = 1;
-    public int ExecutionTimeout { get; init; } = 10;
+    public int? MaxJobsActive { get; init; }
+    public int? PollInterval { get; init; }
+    public int? ExecutionTimeout { get; init; }
 }
 
-public class ClientConfig
+internal class ClientConfig
 {
-    public required string GatewayAddress { get; init; }
+    public string GatewayAddress { get; init; }
     public string? ZeebeClientId { get; init; }
     public string? ZeebeClientSecret { get; init; }
 }

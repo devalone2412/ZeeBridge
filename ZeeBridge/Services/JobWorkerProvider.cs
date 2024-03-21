@@ -6,7 +6,7 @@ using ZeeBridge.Models;
 
 namespace ZeeBridge.Services;
 
-public class JobWorkerProvider : IJobWorkerProvider
+internal class JobWorkerProvider : IJobWorkerProvider
 {
     private readonly Assembly[] _assemblies;
     private List<JobWorkerInfo>? _jobWorkerInfos;
@@ -20,10 +20,7 @@ public class JobWorkerProvider : IJobWorkerProvider
     {
         get
         {
-            if (_jobWorkerInfos != null)
-            {
-                return _jobWorkerInfos;
-            }
+            if (_jobWorkerInfos != null) return _jobWorkerInfos;
 
             _jobWorkerInfos = GetJobWorkerInfos(_assemblies).ToList();
             return _jobWorkerInfos;
@@ -54,7 +51,7 @@ public class JobWorkerProvider : IJobWorkerProvider
             MaxJobsActive = GetMaxJobsActive(jobHandlerType),
             WorkerName = GetWorkerName(jobHandlerType),
             PollInterval = GetPollInterval(jobHandlerType),
-            ExecutionTimeout = GetExecutionTimeout(jobHandlerType),
+            ExecutionTimeout = GetExecutionTimeout(jobHandlerType)
         };
     }
 
@@ -93,16 +90,12 @@ public class JobWorkerProvider : IJobWorkerProvider
     {
         var attr = jobType.GetCustomAttribute<JobTypeAttribute>();
         if (attr is null)
-        {
             throw new InvalidOperationException($"The job handler {jobType.Name} must have a JobTypeAttribute");
-        }
 
         var name = attr.JobType;
         if (string.IsNullOrEmpty(name))
-        {
             throw new InvalidOperationException(
                 $"The job handler {jobType.Name} must have a non-empty JobTypeAttribute");
-        }
 
         return name;
     }
@@ -114,10 +107,8 @@ public class JobWorkerProvider : IJobWorkerProvider
             .SelectMany(i => i.GetMethods()).ToList();
 
         if (jobHandlerMethods.Count() > 1)
-        {
             throw new InvalidOperationException(
                 $"{jobHandlerType.Name} must not have more than one 'HandleJob' method");
-        }
 
         return jobHandlerType.GetMethods()
             .Where(m => IsValidJobHandlerMethod(m, jobHandlerMethods));

@@ -1,5 +1,8 @@
+using ZeeBridge.Client.Models;
 using ZeeBridge.Extenstion;
 using ZeeBridge.Interfaces;
+using ZeeBridge.Models;
+using ZeeBridge.Resources;
 
 namespace ZeeBridge.Client;
 
@@ -38,7 +41,8 @@ public class Program
 
         app.MapGet("/weatherforecast", async (IZeeBridgeClient zeeBridgeClient) =>
             {
-                await zeeBridgeClient.StartEvent("GetWeatherProcess", new {City = "aaa"}); // This line is not working
+                var result = await zeeBridgeClient.StartEventWithResult<WeatherRequest>("GetWeatherProcess", new {City = "aaa"}); // This line is not working
+                return result;
             })
             .WithName("GetWeatherForecast")
             .WithOpenApi();

@@ -1,33 +1,34 @@
 {
   "format": 1,
   "restore": {
-    "D:\\projects\\ZeeBridge\\ZeeBridge\\ZeeBridge.Client\\ZeeBridge.Client.csproj": {}
+    "D:\\personal_projects\\ZeeBridge\\ZeeBridge.Client\\ZeeBridge.Client.csproj": {}
   },
   "projects": {
-    "D:\\projects\\ZeeBridge\\ZeeBridge\\ZeeBridge.Client\\ZeeBridge.Client.csproj": {
+    "D:\\personal_projects\\ZeeBridge\\ZeeBridge.Client\\ZeeBridge.Client.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\projects\\ZeeBridge\\ZeeBridge\\ZeeBridge.Client\\ZeeBridge.Client.csproj",
+        "projectUniqueName": "D:\\personal_projects\\ZeeBridge\\ZeeBridge.Client\\ZeeBridge.Client.csproj",
         "projectName": "ZeeBridge.Client",
-        "projectPath": "D:\\projects\\ZeeBridge\\ZeeBridge\\ZeeBridge.Client\\ZeeBridge.Client.csproj",
-        "packagesPath": "C:\\Users\\devbr\\.nuget\\packages\\",
-        "outputPath": "D:\\projects\\ZeeBridge\\ZeeBridge\\ZeeBridge.Client\\obj\\",
+        "projectPath": "D:\\personal_projects\\ZeeBridge\\ZeeBridge.Client\\ZeeBridge.Client.csproj",
+        "packagesPath": "C:\\Users\\Sang.LucT\\.nuget\\packages\\",
+        "outputPath": "D:\\personal_projects\\ZeeBridge\\ZeeBridge.Client\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\devbr\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Sang.LucT\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "https://api.nuget.org/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {},
+          "https://pkgs.dev.azure.com/hci-iap/_packaging/koyal/nuget/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\projects\\ZeeBridge\\ZeeBridge\\ZeeBridge\\ZeeBridge.csproj": {
-                "projectPath": "D:\\projects\\ZeeBridge\\ZeeBridge\\ZeeBridge\\ZeeBridge.csproj"
+              "D:\\personal_projects\\ZeeBridge\\ZeeBridge\\ZeeBridge.csproj": {
+                "projectPath": "D:\\personal_projects\\ZeeBridge\\ZeeBridge\\ZeeBridge.csproj"
               }
             }
           }
@@ -70,29 +71,36 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Users\\devbr\\.dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.103/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\projects\\ZeeBridge\\ZeeBridge\\ZeeBridge\\ZeeBridge.csproj": {
+    "D:\\personal_projects\\ZeeBridge\\ZeeBridge\\ZeeBridge.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\projects\\ZeeBridge\\ZeeBridge\\ZeeBridge\\ZeeBridge.csproj",
+        "projectUniqueName": "D:\\personal_projects\\ZeeBridge\\ZeeBridge\\ZeeBridge.csproj",
         "projectName": "ZeeBridge",
-        "projectPath": "D:\\projects\\ZeeBridge\\ZeeBridge\\ZeeBridge\\ZeeBridge.csproj",
-        "packagesPath": "C:\\Users\\devbr\\.nuget\\packages\\",
-        "outputPath": "D:\\projects\\ZeeBridge\\ZeeBridge\\ZeeBridge\\obj\\",
+        "projectPath": "D:\\personal_projects\\ZeeBridge\\ZeeBridge\\ZeeBridge.csproj",
+        "packagesPath": "C:\\Users\\Sang.LucT\\.nuget\\packages\\",
+        "outputPath": "D:\\personal_projects\\ZeeBridge\\ZeeBridge\\obj\\",
         "projectStyle": "PackageReference",
+        "crossTargeting": true,
         "configFilePaths": [
-          "C:\\Users\\devbr\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Sang.LucT\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
+          "net6.0",
           "net8.0"
         ],
         "sources": {
-          "https://api.nuget.org/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {},
+          "https://pkgs.dev.azure.com/hci-iap/_packaging/koyal/nuget/v3/index.json": {}
         },
         "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          },
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {}
@@ -105,6 +113,44 @@
         }
       },
       "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "Microsoft.Extensions.Configuration": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "Microsoft.Extensions.Hosting": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "Microsoft.Extensions.Options": {
+              "target": "Package",
+              "version": "[8.0.2, )"
+            },
+            "zb-client": {
+              "target": "Package",
+              "version": "[2.5.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.103\\RuntimeIdentifierGraph.json"
+        },
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
@@ -141,7 +187,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Users\\devbr\\.dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.103/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

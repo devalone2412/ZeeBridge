@@ -2770,32 +2770,33 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\devbr\\.nuget\\packages\\": {}
+    "C:\\Users\\Sang.LucT\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\projects\\ZeeBridge\\ZeeBridge\\ZeeBridge.Client\\ZeeBridge.Client.csproj",
+      "projectUniqueName": "D:\\personal_projects\\ZeeBridge\\ZeeBridge.Client\\ZeeBridge.Client.csproj",
       "projectName": "ZeeBridge.Client",
-      "projectPath": "D:\\projects\\ZeeBridge\\ZeeBridge\\ZeeBridge.Client\\ZeeBridge.Client.csproj",
-      "packagesPath": "C:\\Users\\devbr\\.nuget\\packages\\",
-      "outputPath": "D:\\projects\\ZeeBridge\\ZeeBridge\\ZeeBridge.Client\\obj\\",
+      "projectPath": "D:\\personal_projects\\ZeeBridge\\ZeeBridge.Client\\ZeeBridge.Client.csproj",
+      "packagesPath": "C:\\Users\\Sang.LucT\\.nuget\\packages\\",
+      "outputPath": "D:\\personal_projects\\ZeeBridge\\ZeeBridge.Client\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\devbr\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\Sang.LucT\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
-        "https://api.nuget.org/v3/index.json": {}
+        "https://api.nuget.org/v3/index.json": {},
+        "https://pkgs.dev.azure.com/hci-iap/_packaging/koyal/nuget/v3/index.json": {}
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "D:\\projects\\ZeeBridge\\ZeeBridge\\ZeeBridge\\ZeeBridge.csproj": {
-              "projectPath": "D:\\projects\\ZeeBridge\\ZeeBridge\\ZeeBridge\\ZeeBridge.csproj"
+            "D:\\personal_projects\\ZeeBridge\\ZeeBridge\\ZeeBridge.csproj": {
+              "projectPath": "D:\\personal_projects\\ZeeBridge\\ZeeBridge\\ZeeBridge.csproj"
             }
           }
         }
@@ -2838,7 +2839,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Users\\devbr\\.dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.103/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

@@ -10,10 +10,11 @@
 using System;
 using System.Reflection;
 
-[assembly: System.Reflection.AssemblyCompanyAttribute("ZeeBridge")]
+[assembly: System.Reflection.AssemblyCompanyAttribute("William Luc")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
+[assembly: System.Reflection.AssemblyDescriptionAttribute(@"Simplify your Camunda integration with ZeeBridge, a .NET library designed to bridge the gap between worker jobs in your source code and Camunda. With its easy-to-use API and Zeebe-powered communication, ZeeBridge is the perfect solution for your Camunda connection needs.")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+66c33b1f4f1dce47236e02f5e9304cae9739e02d")]
 [assembly: System.Reflection.AssemblyProductAttribute("ZeeBridge")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ZeeBridge")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -2,7 +2,7 @@
 
 namespace ZeeBridge.Interfaces;
 
-public interface IJobWorkerProvider
+internal interface IJobWorkerProvider
 {
     IEnumerable<JobWorkerInfo> JobWorkerInfos { get; }
 }

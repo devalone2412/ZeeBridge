@@ -1,6 +1,8 @@
 ﻿using Zeebe.Client.Api.Responses;
 using Zeebe.Client.Api.Worker;
 using ZeeBridge.Attributes;
+using ZeeBridge.Client.Models;
+using ZeeBridge.Extenstion;
 using ZeeBridge.Interfaces;
 
 namespace ZeeBridge.Client.Workers;
@@ -13,9 +15,13 @@ namespace ZeeBridge.Client.Workers;
 [ServiceLifetime(ServiceLifetime.Transient)]
 public class GetApiInformationWorker : IJobWorkerHandlerAsync
 {
-    public Task HandlerAsync(IJobClient client, IJob activatedJob, CancellationToken cancellationToken)
+
+    public Task HandlerAsync(IJob activatedJob, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
+        
+        var weatherRequest = activatedJob.GetVariables<WeatherRequest>();
+        Console.WriteLine($"City: {weatherRequest.City}");
         
         Console.WriteLine($"Job {nameof(GetApiInformationWorker)} completed!");
         return Task.CompletedTask;

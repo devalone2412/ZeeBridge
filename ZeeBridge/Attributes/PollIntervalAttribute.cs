@@ -1,6 +1,11 @@
 ﻿namespace ZeeBridge.Attributes;
 
-public class PollIntervalAttribute(int pollInterval) : Attribute
+public class PollIntervalAttribute : Attribute
 {
-    internal TimeSpan PollInterval = TimeSpan.FromSeconds(pollInterval);
+    internal TimeSpan PollInterval;
+
+    public PollIntervalAttribute(int pollInterval)
+    {
+        PollInterval = TimeSpan.FromSeconds(pollInterval);
+    }
 }

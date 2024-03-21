@@ -1,3 +1,8 @@
 ﻿namespace ZeeBridge.Exceptions;
 
-public class InvalidBpmnException(string? message, Exception? innerException) : Exception(message, innerException);
+public class InvalidBpmnException : Exception
+{
+    public InvalidBpmnException(string? message, Exception? innerException) : base(message, innerException)
+    {
+    }
+}

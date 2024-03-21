@@ -1,21 +1,19 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Zeebe.Client.Api.Responses;
 using Zeebe.Client.Api.Worker;
 using ZeeBridge.Interfaces;
-using ZeeBridge.Models;
 
 namespace ZeeBridge.BackgroundServices;
 
-public class ZeeBridgeWorkerService : BackgroundService
+internal class ZeeBridgeWorkerService : BackgroundService
 {
-    private readonly IServiceProvider _serviceProvider;
     private readonly IJobWorkerProvider _jobWorkerProvider;
+    private readonly List<IJobWorker> _jobWorkers = new();
     private readonly ILogger<ZeeBridgeWorkerService> _logger;
+    private readonly IServiceProvider _serviceProvider;
 
     private CancellationTokenSource _cancellationTokenSource;
-    private readonly List<IJobWorker> _jobWorkers = [];
 
     public ZeeBridgeWorkerService(IServiceProvider serviceProvider, IJobWorkerProvider jobWorkerProvider,
         ILogger<ZeeBridgeWorkerService> logger)
@@ -36,10 +34,10 @@ public class ZeeBridgeWorkerService : BackgroundService
         {
             var jobWorker = await zeeBridgeClient.CreateWorker(jobWorkerInfo, _cancellationTokenSource.Token);
             _logger.LogInformation("Created job worker for type '{0}'", jobWorkerInfo.JobType);
-            
+
             _jobWorkers.Add(jobWorker);
         }
-        
+
         _logger.LogInformation("Created {0} job workers", _jobWorkers.Count);
     }
 }
