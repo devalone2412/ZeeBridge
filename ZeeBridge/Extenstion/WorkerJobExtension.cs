@@ -2,12 +2,18 @@
 using Zeebe.Client.Api.Commands;
 using Zeebe.Client.Api.Responses;
 using Zeebe.Client.Api.Worker;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace ZeeBridge.Extenstion;
 
 public static class WorkerJobExtension
 {
     private static IJobClient? _jobClient;
+
+    private static readonly JsonSerializerOptions DefaultJsonSerializerSetting = new()
+    {
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+    };
 
     internal static void SetJobClient(this IJob job, IJobClient jobClient)
     {
@@ -17,12 +23,12 @@ public static class WorkerJobExtension
     public static T GetVariables<T>(this IJob job)
     {
         return JsonSerializer.Deserialize<T>(job.Variables) ??
-               throw new InvalidOperationException($"Failed to deserialize variables for job {job.Key}");
+            throw new InvalidOperationException($"Failed to deserialize variables for job {job.Key}");
     }
 
     public static bool MarkAsCompleted(this IJob job, object transferData)
     {
-        var data = JsonSerializer.Serialize(transferData);
+        var data = JsonSerializer.Serialize(transferData, DefaultJsonSerializerSetting);
         CreateCompleteJobCommand(job, data)
             .Send()
             .ConfigureAwait(false)
@@ -34,7 +40,7 @@ public static class WorkerJobExtension
 
     public static async Task MarkAsCompletedAsync(this IJob job, object transferData)
     {
-        var data = JsonSerializer.Serialize(transferData);
+        var data = JsonSerializer.Serialize(transferData, DefaultJsonSerializerSetting);
         await CreateCompleteJobCommand(job, data)
             .Send();
     }
