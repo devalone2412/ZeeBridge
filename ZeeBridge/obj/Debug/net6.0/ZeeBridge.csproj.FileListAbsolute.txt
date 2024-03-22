@@ -1,0 +1,13 @@
+D:\projects\ZeeBridge\ZeeBridge\ZeeBridge\obj\Debug\net6.0\ZeeBridge.csproj.AssemblyReference.cache
+D:\projects\ZeeBridge\ZeeBridge\ZeeBridge\obj\Debug\net6.0\ZeeBridge.GeneratedMSBuildEditorConfig.editorconfig
+D:\projects\ZeeBridge\ZeeBridge\ZeeBridge\obj\Debug\net6.0\ZeeBridge.AssemblyInfoInputs.cache
+D:\projects\ZeeBridge\ZeeBridge\ZeeBridge\obj\Debug\net6.0\ZeeBridge.AssemblyInfo.cs
+D:\projects\ZeeBridge\ZeeBridge\ZeeBridge\obj\Debug\net6.0\ZeeBridge.csproj.CoreCompileInputs.cache
+D:\projects\ZeeBridge\ZeeBridge\ZeeBridge\obj\Debug\net6.0\ZeeBridge.sourcelink.json
+D:\projects\ZeeBridge\ZeeBridge\ZeeBridge\bin\Debug\net6.0\ZeeBridge.deps.json
+D:\projects\ZeeBridge\ZeeBridge\ZeeBridge\bin\Debug\net6.0\ZeeBridge.dll
+D:\projects\ZeeBridge\ZeeBridge\ZeeBridge\bin\Debug\net6.0\ZeeBridge.pdb
+D:\projects\ZeeBridge\ZeeBridge\ZeeBridge\obj\Debug\net6.0\ZeeBridge.dll
+D:\projects\ZeeBridge\ZeeBridge\ZeeBridge\obj\Debug\net6.0\refint\ZeeBridge.dll
+D:\projects\ZeeBridge\ZeeBridge\ZeeBridge\obj\Debug\net6.0\ZeeBridge.pdb
+D:\projects\ZeeBridge\ZeeBridge\ZeeBridge\obj\Debug\net6.0\ref\ZeeBridge.dll
