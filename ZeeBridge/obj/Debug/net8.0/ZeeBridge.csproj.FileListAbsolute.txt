@@ -23,3 +23,4 @@ D:\personal_projects\ZeeBridge\ZeeBridge\obj\Debug\net8.0\ZeeBridge.dll
 D:\personal_projects\ZeeBridge\ZeeBridge\obj\Debug\net8.0\refint\ZeeBridge.dll
 D:\personal_projects\ZeeBridge\ZeeBridge\obj\Debug\net8.0\ZeeBridge.pdb
 D:\personal_projects\ZeeBridge\ZeeBridge\obj\Debug\net8.0\ref\ZeeBridge.dll
+D:\projects\ZeeBridge\ZeeBridge\ZeeBridge\obj\Debug\net8.0\ZeeBridge.sourcelink.json

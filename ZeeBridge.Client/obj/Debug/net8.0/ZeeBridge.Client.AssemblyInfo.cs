@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ZeeBridge.Client")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+66c33b1f4f1dce47236e02f5e9304cae9739e02d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1f369feca6fb4666b31e199afea03cab8d4fb431")]
 [assembly: System.Reflection.AssemblyProductAttribute("ZeeBridge.Client")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ZeeBridge.Client")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

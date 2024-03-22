@@ -1,29 +1,30 @@
 {
   "format": 1,
   "restore": {
-    "D:\\personal_projects\\ZeeBridge\\ZeeBridge\\ZeeBridge.csproj": {}
+    "D:\\projects\\ZeeBridge\\ZeeBridge\\ZeeBridge\\ZeeBridge.csproj": {}
   },
   "projects": {
-    "D:\\personal_projects\\ZeeBridge\\ZeeBridge\\ZeeBridge.csproj": {
+    "D:\\projects\\ZeeBridge\\ZeeBridge\\ZeeBridge\\ZeeBridge.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\personal_projects\\ZeeBridge\\ZeeBridge\\ZeeBridge.csproj",
+        "projectUniqueName": "D:\\projects\\ZeeBridge\\ZeeBridge\\ZeeBridge\\ZeeBridge.csproj",
         "projectName": "ZeeBridge",
-        "projectPath": "D:\\personal_projects\\ZeeBridge\\ZeeBridge\\ZeeBridge.csproj",
-        "packagesPath": "C:\\Users\\Sang.LucT\\.nuget\\packages\\",
-        "outputPath": "D:\\personal_projects\\ZeeBridge\\ZeeBridge\\obj\\",
+        "projectPath": "D:\\projects\\ZeeBridge\\ZeeBridge\\ZeeBridge\\ZeeBridge.csproj",
+        "packagesPath": "C:\\Users\\devbr\\.nuget\\packages\\",
+        "outputPath": "D:\\projects\\ZeeBridge\\ZeeBridge\\ZeeBridge\\obj\\",
         "projectStyle": "PackageReference",
         "crossTargeting": true,
         "configFilePaths": [
-          "C:\\Users\\Sang.LucT\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\devbr\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0",
           "net8.0"
         ],
         "sources": {
-          "https://api.nuget.org/v3/index.json": {},
-          "https://pkgs.dev.azure.com/hci-iap/_packaging/koyal/nuget/v3/index.json": {}
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net6.0": {
@@ -78,7 +79,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.103\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202\\RuntimeIdentifierGraph.json"
         },
         "net8.0": {
           "targetAlias": "net8.0",
@@ -116,7 +117,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.103/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
