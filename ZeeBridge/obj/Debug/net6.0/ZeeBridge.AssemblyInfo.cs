@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyDescriptionAttribute(@"Simplify your Camunda integration with ZeeBridge, a .NET library designed to bridge the gap between worker jobs in your source code and Camunda. With its easy-to-use API and Zeebe-powered communication, ZeeBridge is the perfect solution for your Camunda connection needs.")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.1.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.1.0+1f369feca6fb4666b31e199afea03cab8d4fb431")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.1.0+66e9c4f413fd3e22937c2f7b4b26228f0dc45c72")]
 [assembly: System.Reflection.AssemblyProductAttribute("ZeeBridge")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ZeeBridge")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.1.0.0")]

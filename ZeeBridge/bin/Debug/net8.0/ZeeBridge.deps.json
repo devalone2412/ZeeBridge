@@ -6,7 +6,7 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v8.0": {
-      "ZeeBridge/1.0.0": {
+      "ZeeBridge/1.1.0": {
         "dependencies": {
           "Microsoft.Extensions.Configuration": "8.0.0",
           "Microsoft.Extensions.Hosting": "8.0.0",
@@ -572,7 +572,7 @@
     }
   },
   "libraries": {
-    "ZeeBridge/1.0.0": {
+    "ZeeBridge/1.1.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

@@ -45,8 +45,8 @@ public class ZeebeResourceDeploymentWithDirectory : ZeebeResourceDeployment
         }
         catch (RpcException ex) when (ex.StatusCode == StatusCode.InvalidArgument)
         {
-            throw new InvalidBpmnException("Invalid BPMN file detected. Please check your BPMN file for errors.",
-                ex.InnerException);
+            throw new InvalidBpmnException(
+                $"Invalid BPMN file detected. Please check your BPMN file for errors. - Error detail: {ex.Message}");
         }
     }
 }
