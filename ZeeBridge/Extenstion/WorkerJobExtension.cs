@@ -1,4 +1,4 @@
-﻿using System.Text.Json;
+﻿using Newtonsoft.Json.Linq;
 using Zeebe.Client.Api.Commands;
 using Zeebe.Client.Api.Responses;
 using Zeebe.Client.Api.Worker;
@@ -9,6 +9,7 @@ public static class WorkerJobExtension
 {
     private static IJobClient? _jobClient;
 
+
     internal static void SetJobClient(this IJob job, IJobClient jobClient)
     {
         _jobClient = jobClient;
@@ -16,13 +17,69 @@ public static class WorkerJobExtension
 
     public static T GetVariables<T>(this IJob job)
     {
-        return JsonSerializer.Deserialize<T>(job.Variables) ??
-               throw new InvalidOperationException($"Failed to deserialize variables for job {job.Key}");
+        return job.Variables.ParseObject<T>() ??
+            throw new InvalidOperationException($"Failed to deserialize variables for job {job.Key}");
+    }
+
+    public static Dictionary<string, object> GetVariables(this IJob job)
+    {
+        return job.Variables.ParseObject<Dictionary<string, object>>() ??
+            throw new InvalidOperationException($"Failed to deserialize variables for job {job.Key}");
+    }
+
+    public static T GetHeadersInVariables<T>(this IJob job)
+    {
+        Dictionary<string, object> variables = job.GetVariables();
+
+        return variables["headers"].ToString()!.ParseObject<T>() ??
+            throw new InvalidOperationException($"Failed to headers value in variables for job {job.Key}");
+    }
+
+    private static dynamic GetHeadersInVariables(this IJob job)
+    {
+        Dictionary<string, object> variables = job.GetVariables();
+        return JObject.Parse(variables["headers"].ToString()!)  
+            ?? throw new InvalidOperationException($"Failed to headers value in variables for job {job.Key}");
+    }
+
+    public static T? GetHeaderValueInVariables<T>(this IJob job, string fieldName)
+    {
+        var variables = job.GetHeadersInVariables();
+        var fieldValue = variables[fieldName];
+        if (fieldValue is null)
+        {
+            return default(T);
+        }
+        
+        return (T) Convert.ChangeType(fieldValue, typeof(T));
+    }
+
+    public static T GetDataValueInVariables<T>(this IJob job, string fieldName)
+    {
+        if (string.IsNullOrWhiteSpace(fieldName))
+        {
+            throw new ArgumentNullException($"{nameof(fieldName)} cannot be NULL or EMPTY");
+        }
+
+        Dictionary<string, object> variables = job.GetVariables();
+        return variables[fieldName].ToString()!.ParseObject<T>() ??
+            throw new InvalidOperationException($"Failed to Data Value value in variables for job {job.Key}");
+    }
+
+    public static bool MarkAsCompleted(this IJob job)
+    {
+        CreateCompleteJobCommand(job)
+            .Send()
+            .ConfigureAwait(false)
+            .GetAwaiter()
+            .GetResult();
+
+        return true;
     }
 
     public static bool MarkAsCompleted(this IJob job, object transferData)
     {
-        var data = JsonSerializer.Serialize(transferData);
+        var data = transferData.ToJson();
         CreateCompleteJobCommand(job, data)
             .Send()
             .ConfigureAwait(false)
@@ -32,9 +89,16 @@ public static class WorkerJobExtension
         return true;
     }
 
+
+    public static async Task MarkAsCompletedAsync(this IJob job)
+    {
+        await CreateCompleteJobCommand(job)
+            .Send();
+    }
+
     public static async Task MarkAsCompletedAsync(this IJob job, object transferData)
     {
-        var data = JsonSerializer.Serialize(transferData);
+        var data = transferData.ToJson();
         await CreateCompleteJobCommand(job, data)
             .Send();
     }
@@ -61,9 +125,14 @@ public static class WorkerJobExtension
             .ErrorMessage(errorMessage);
     }
 
-    private static ICompleteJobCommandStep1 CreateCompleteJobCommand(IJob job, string data)
+    private static ICompleteJobCommandStep1 CreateCompleteJobCommand(IJob job, string? data = null)
     {
-        return _jobClient!.NewCompleteJobCommand(job.Key)
-            .Variables(data);
+        var command = _jobClient!.NewCompleteJobCommand(job.Key);
+        if (string.IsNullOrWhiteSpace(data) == false)
+        {
+            command.Variables(data);
+        }
+
+        return command;
     }
 }
