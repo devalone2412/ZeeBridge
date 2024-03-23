@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using System.Text.Json;
 using Zeebe.Client;
+using Zeebe.Client.Api.Commands;
 using Zeebe.Client.Api.Responses;
 using Zeebe.Client.Api.Worker;
 using ZeeBridge.Configs;
@@ -91,27 +92,7 @@ public class ZeeBridgeClient : IZeeBridgeClient
 
     public async Task<T?> StartEventWithResult<T>(string processId, object? data = null)
     {
-        var startEventCommand = _zeebeClient.NewCreateProcessInstanceCommand()
-            .BpmnProcessId(processId)
-            .LatestVersion();
-
-        if (data is not null)
-            startEventCommand
-                .Variables(data.ToJson());
-
-        var result = await startEventCommand
-            .WithResult()
-            .Send();
-
-        return JsonSerializer.Deserialize<T>(result.Variables);
-    }
-
-    public async Task<T?> StartEventWithResult<T>(string processId, int version, object? data = null)
-    {
-        var startEventCommand = _zeebeClient
-            .NewCreateProcessInstanceCommand()
-            .BpmnProcessId(processId)
-            .Version(version);
+        ICreateProcessInstanceCommandStep3 startEventCommand = CreateProcessInstanceCommand(processId);
 
         if (data is not null)
             startEventCommand.Variables(data.ToJson());
@@ -120,7 +101,32 @@ public class ZeeBridgeClient : IZeeBridgeClient
             .WithResult()
             .Send();
 
-        return JsonSerializer.Deserialize<T>(result.Variables);
+        return result.Variables.ParseObject<T>();
+    }
+
+    public async Task<T?> StartEventWithResult<T>(string processId, int version, object? data = null)
+    {
+        ICreateProcessInstanceCommandStep3 startEventCommand = CreateProcessInstanceCommand(processId, version);
+
+        if (data is not null)
+            startEventCommand.Variables(data.ToJson());
+
+        var result = await startEventCommand
+            .WithResult()
+            .Send();
+
+        return result.Variables.ParseObject<T>();
+    }
+
+    private ICreateProcessInstanceCommandStep3 CreateProcessInstanceCommand(string processId, int version = 0)
+    {
+        var startEventCommand = _zeebeClient
+            .NewCreateProcessInstanceCommand()
+            .BpmnProcessId(processId);
+
+        return version > 0 
+            ? startEventCommand.Version(version) 
+            : startEventCommand.LatestVersion();
     }
 
     private async Task Handler(
