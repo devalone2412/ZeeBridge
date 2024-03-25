@@ -108,13 +108,13 @@ public class ZeeBridgeClient : IZeeBridgeClient
 
     public async Task<T?> StartEventWithResult<T>(string processId, int version, object? data = null)
     {
-        var startEventCommand = _zeebeClient.NewCreateProcessInstanceCommand()
+        var startEventCommand = _zeebeClient
+            .NewCreateProcessInstanceCommand()
             .BpmnProcessId(processId)
             .Version(version);
 
         if (data is not null)
-            startEventCommand
-                .Variables(data.ToJson());
+            startEventCommand.Variables(data.ToJson());
 
         var result = await startEventCommand
             .WithResult()
@@ -123,15 +123,24 @@ public class ZeeBridgeClient : IZeeBridgeClient
         return JsonSerializer.Deserialize<T>(result.Variables);
     }
 
-    private Task Handler(IJobClient client, IJob job, MethodInfo handler, CancellationToken cancellationToken)
+    private async Task Handler(
+        IJobClient client,
+        IJob job,
+        MethodBase handler,
+        CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
+        
         var handlerInstance = _serviceProvider.GetService(handler.ReflectedType);
         if (handlerInstance is null)
-            throw new InvalidOperationException($"Ther is no service registered for {handler.ReflectedType}");
+            throw new InvalidOperationException($"There is no service registered for {handler.ReflectedType}");
 
         job.SetJobClient(client);
-        handler.Invoke(handlerInstance, new object[] { job, cancellationToken });
-        return Task.CompletedTask;
+        
+        var result = handler.Invoke(handlerInstance, new object[] { job, cancellationToken });
+        if (result is Task task)
+        {
+            await task;
+        }
     }
 }
