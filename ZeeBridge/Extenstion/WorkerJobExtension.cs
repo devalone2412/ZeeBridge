@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using Newtonsoft.Json.Linq;
 using Zeebe.Client.Api.Commands;
 using Zeebe.Client.Api.Responses;
@@ -9,15 +10,25 @@ namespace ZeeBridge.Extenstion;
 public static class WorkerJobExtension
 {
     private static IJobClient? _jobClient;
+    private static JsonSerializerOptions _jsonSerializerSetting = new()
+    {
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+    };
 
     internal static void SetJobClient(this IJob job, IJobClient jobClient)
     {
         _jobClient = jobClient;
     }
+    
+    internal static void SetJsonSerializerOptions(this IJob job, JsonSerializerOptions? jsonSerializerOptions)
+    {
+        _jsonSerializerSetting = jsonSerializerOptions ?? _jsonSerializerSetting;
+    }
 
     public static T GetVariables<T>(this IJob job)
     {
-        return job.Variables.ParseObject<T>() ??
+        return job.Variables.ParseObject<T>(_jsonSerializerSetting) ??
             throw new InvalidOperationException($"Failed to deserialize variables for job {job.Key}");
     }
 
@@ -31,7 +42,7 @@ public static class WorkerJobExtension
     {
         Dictionary<string, object> variables = job.GetVariables();
 
-        return variables["headers"].ToString()!.ParseObject<T>() ??
+        return variables["headers"].ToString()!.ParseObject<T>(_jsonSerializerSetting) ??
             throw new InvalidOperationException($"Failed to headers value in variables for job {job.Key}");
     }
 
@@ -62,7 +73,7 @@ public static class WorkerJobExtension
         }
 
         Dictionary<string, object> variables = job.GetVariables();
-        return variables[fieldName].ToString()!.ParseObject<T>() ??
+        return variables[fieldName].ToString()!.ParseObject<T>(_jsonSerializerSetting) ??
             throw new InvalidOperationException($"Failed to Data Value value in variables for job {job.Key}");
     }
 
@@ -79,7 +90,7 @@ public static class WorkerJobExtension
 
     public static bool MarkAsCompleted(this IJob job, object transferData)
     {
-        var data = JsonSerializer.Serialize(transferData);
+        var data = transferData.ToJson(_jsonSerializerSetting);
         CreateCompleteJobCommand(job, data)
             .Send()
             .ConfigureAwait(false)
@@ -98,7 +109,7 @@ public static class WorkerJobExtension
 
     public static async Task MarkAsCompletedAsync(this IJob job, object transferData)
     {
-        var data = transferData.ToJson();
+        var data = transferData.ToJson(_jsonSerializerSetting);
         await CreateCompleteJobCommand(job, data)
             .Send();
     }
