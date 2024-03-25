@@ -17,7 +17,6 @@ public class ZeeBridgeClient : IZeeBridgeClient
     private readonly IZeebeClient _zeebeClient;
     private readonly ZeebeClientConfigOption _zeebeClientConfigOption;
     private readonly IServiceProvider _serviceProvider;
-
     private readonly JsonSerializerOptions _jsonSerializerSetting = new()
     {
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
@@ -34,8 +33,6 @@ public class ZeeBridgeClient : IZeeBridgeClient
         _zeebeClientConfigOption = zeebeClientConfigOption;
         _serviceProvider = serviceProvider;
         _jsonSerializerSetting = jsonSerializerSetting ?? _jsonSerializerSetting;
-        
-        
     }
 
     public Task<IDeployResourceResponse> DeployResource(string directoryPath, List<string> resources)
@@ -108,7 +105,7 @@ public class ZeeBridgeClient : IZeeBridgeClient
             .WithResult()
             .Send();
 
-        return result.Variables.ParseObject<T>(_jsonSerializerSetting); 
+        return result.Variables.ParseObject<T>(_jsonSerializerSetting);
     }
 
     public async Task<T?> StartEventWithResult<T>(string processId, int version, object? data = null)
@@ -135,8 +132,8 @@ public class ZeeBridgeClient : IZeeBridgeClient
             ? startEventCommand.Version(version) 
             : startEventCommand.LatestVersion();
     }
-    
-    private Task Handler(
+
+    private async Task Handler(
         IJobClient client,
         IJob job,
         MethodBase handler,
@@ -148,8 +145,11 @@ public class ZeeBridgeClient : IZeeBridgeClient
             throw new InvalidOperationException($"There is no service registered for {handler.ReflectedType}");
 
         job.SetJobClient(client);
-        handler.Invoke(handlerInstance, new object[] { job, cancellationToken });
-        return Task.CompletedTask;
+        
+        var result = handler.Invoke(handlerInstance, new object[] { job, cancellationToken });
+        if (result is Task task)
+        {
+            await task;
+        }
     }
-
 }

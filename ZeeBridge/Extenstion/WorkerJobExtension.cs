@@ -1,10 +1,8 @@
-﻿using System.Text.Json;
-using System.Text.Json.Serialization;
+using System.Text.Json;
 using Newtonsoft.Json.Linq;
 using Zeebe.Client.Api.Commands;
 using Zeebe.Client.Api.Responses;
 using Zeebe.Client.Api.Worker;
-using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace ZeeBridge.Extenstion;
 
@@ -81,7 +79,7 @@ public static class WorkerJobExtension
 
     public static bool MarkAsCompleted(this IJob job, object transferData)
     {
-        var data = transferData.ToJson();
+        var data = JsonSerializer.Serialize(transferData);
         CreateCompleteJobCommand(job, data)
             .Send()
             .ConfigureAwait(false)
