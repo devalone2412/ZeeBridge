@@ -150,6 +150,7 @@ public class ZeeBridgeClient : IZeeBridgeClient
             throw new InvalidOperationException($"There is no service registered for {handler.ReflectedType}");
 
         job.SetJobClient(client);
+        job.SetJsonSerializerOptions(_jsonSerializerSetting);
         
         var result = handler.Invoke(handlerInstance, new object[] { job, cancellationToken });
         if (result is Task task)
