@@ -1,10 +1,9 @@
-﻿using System.Text.Json;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json.Linq;
 using Zeebe.Client.Api.Commands;
 using Zeebe.Client.Api.Responses;
 using Zeebe.Client.Api.Worker;
-using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace ZeeBridge.Extenstion;
 

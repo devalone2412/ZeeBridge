@@ -76,21 +76,17 @@ public class ZeeBridgeClient : IZeeBridgeClient
 
     public Task StartEvent(string processId, object? data = null)
     {
-        var startEventCommand = _zeebeClient.NewCreateProcessInstanceCommand()
-            .BpmnProcessId(processId)
-            .LatestVersion();
+        ICreateProcessInstanceCommandStep3 startEventCommand = CreateProcessInstanceCommand(processId);
 
         if (data is not null)
-            startEventCommand .Variables(data.ToJson(_jsonSerializerSetting));
+            startEventCommand.Variables(data.ToJson(_jsonSerializerSetting));
 
         return startEventCommand.Send();
     }
 
     public Task StartEvent(string processId, int version, object? data = null)
     {
-        var startEventCommand = _zeebeClient.NewCreateProcessInstanceCommand()
-            .BpmnProcessId(processId)
-            .Version(version);
+        ICreateProcessInstanceCommandStep3 startEventCommand = CreateProcessInstanceCommand(processId, version);
 
         if (data is not null)
             startEventCommand.Variables(data.ToJson(_jsonSerializerSetting));
@@ -144,7 +140,6 @@ public class ZeeBridgeClient : IZeeBridgeClient
         CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        
         var handlerInstance = _serviceProvider.GetService(handler.ReflectedType);
         if (handlerInstance is null)
             throw new InvalidOperationException($"There is no service registered for {handler.ReflectedType}");
