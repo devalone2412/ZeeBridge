@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using Zeebe.Client;
 using Zeebe.Client.Api.Commands;
 using Zeebe.Client.Api.Responses;
@@ -16,13 +17,22 @@ public class ZeeBridgeClient : IZeeBridgeClient
     private readonly IZeebeClient _zeebeClient;
     private readonly ZeebeClientConfigOption _zeebeClientConfigOption;
     private readonly IServiceProvider _serviceProvider;
-
-    internal ZeeBridgeClient(IZeebeClient zeebeClient, ZeebeClientConfigOption zeebeClientConfigOption,
-        IServiceProvider serviceProvider)
+    private readonly JsonSerializerOptions _jsonSerializerSetting = new()
+    {
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+    };
+    
+    internal ZeeBridgeClient(
+        IZeebeClient zeebeClient,
+        ZeebeClientConfigOption zeebeClientConfigOption,
+        IServiceProvider serviceProvider,
+        JsonSerializerOptions? jsonSerializerSetting = null)
     {
         _zeebeClient = zeebeClient;
         _zeebeClientConfigOption = zeebeClientConfigOption;
         _serviceProvider = serviceProvider;
+        _jsonSerializerSetting = jsonSerializerSetting ?? _jsonSerializerSetting;
     }
 
     public Task<IDeployResourceResponse> DeployResource(string directoryPath, List<string> resources)
@@ -71,8 +81,7 @@ public class ZeeBridgeClient : IZeeBridgeClient
             .LatestVersion();
 
         if (data is not null)
-            startEventCommand
-                .Variables(data.ToJson());
+            startEventCommand .Variables(data.ToJson(_jsonSerializerSetting));
 
         return startEventCommand.Send();
     }
@@ -84,8 +93,7 @@ public class ZeeBridgeClient : IZeeBridgeClient
             .Version(version);
 
         if (data is not null)
-            startEventCommand
-                .Variables(data.ToJson());
+            startEventCommand.Variables(data.ToJson(_jsonSerializerSetting));
 
         return startEventCommand.Send();
     }
@@ -95,13 +103,13 @@ public class ZeeBridgeClient : IZeeBridgeClient
         ICreateProcessInstanceCommandStep3 startEventCommand = CreateProcessInstanceCommand(processId);
 
         if (data is not null)
-            startEventCommand.Variables(data.ToJson());
+            startEventCommand.Variables(data.ToJson(_jsonSerializerSetting));
 
         var result = await startEventCommand
             .WithResult()
             .Send();
 
-        return result.Variables.ParseObject<T>();
+        return result.Variables.ParseObject<T>(_jsonSerializerSetting);
     }
 
     public async Task<T?> StartEventWithResult<T>(string processId, int version, object? data = null)
@@ -109,13 +117,13 @@ public class ZeeBridgeClient : IZeeBridgeClient
         ICreateProcessInstanceCommandStep3 startEventCommand = CreateProcessInstanceCommand(processId, version);
 
         if (data is not null)
-            startEventCommand.Variables(data.ToJson());
+            startEventCommand.Variables(data.ToJson(_jsonSerializerSetting));
 
         var result = await startEventCommand
             .WithResult()
             .Send();
 
-        return result.Variables.ParseObject<T>();
+        return result.Variables.ParseObject<T>(_jsonSerializerSetting);
     }
 
     private ICreateProcessInstanceCommandStep3 CreateProcessInstanceCommand(string processId, int version = 0)
