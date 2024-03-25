@@ -1,6 +1,8 @@
 ﻿using System.Reflection;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using Zeebe.Client;
+using Zeebe.Client.Api.Commands;
 using Zeebe.Client.Api.Responses;
 using Zeebe.Client.Api.Worker;
 using ZeeBridge.Configs;
@@ -16,12 +18,24 @@ public class ZeeBridgeClient : IZeeBridgeClient
     private readonly ZeebeClientConfigOption _zeebeClientConfigOption;
     private readonly IServiceProvider _serviceProvider;
 
-    internal ZeeBridgeClient(IZeebeClient zeebeClient, ZeebeClientConfigOption zeebeClientConfigOption,
-        IServiceProvider serviceProvider)
+    private readonly JsonSerializerOptions _jsonSerializerSetting = new()
+    {
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+    };
+    
+    internal ZeeBridgeClient(
+        IZeebeClient zeebeClient,
+        ZeebeClientConfigOption zeebeClientConfigOption,
+        IServiceProvider serviceProvider,
+        JsonSerializerOptions? jsonSerializerSetting = null)
     {
         _zeebeClient = zeebeClient;
         _zeebeClientConfigOption = zeebeClientConfigOption;
         _serviceProvider = serviceProvider;
+        _jsonSerializerSetting = jsonSerializerSetting ?? _jsonSerializerSetting;
+        
+        
     }
 
     public Task<IDeployResourceResponse> DeployResource(string directoryPath, List<string> resources)
@@ -65,73 +79,77 @@ public class ZeeBridgeClient : IZeeBridgeClient
 
     public Task StartEvent(string processId, object? data = null)
     {
-        var startEventCommand = _zeebeClient.NewCreateProcessInstanceCommand()
-            .BpmnProcessId(processId)
-            .LatestVersion();
+        ICreateProcessInstanceCommandStep3 startEventCommand = CreateProcessInstanceCommand(processId);
 
         if (data is not null)
-            startEventCommand
-                .Variables(data.ToJson());
+            startEventCommand.Variables(data.ToJson(_jsonSerializerSetting));
 
         return startEventCommand.Send();
     }
 
     public Task StartEvent(string processId, int version, object? data = null)
     {
-        var startEventCommand = _zeebeClient.NewCreateProcessInstanceCommand()
-            .BpmnProcessId(processId)
-            .Version(version);
+        ICreateProcessInstanceCommandStep3 startEventCommand = CreateProcessInstanceCommand(processId, version);
 
         if (data is not null)
-            startEventCommand
-                .Variables(data.ToJson());
+            startEventCommand.Variables(data.ToJson(_jsonSerializerSetting));
 
         return startEventCommand.Send();
     }
 
     public async Task<T?> StartEventWithResult<T>(string processId, object? data = null)
     {
-        var startEventCommand = _zeebeClient.NewCreateProcessInstanceCommand()
-            .BpmnProcessId(processId)
-            .LatestVersion();
+        ICreateProcessInstanceCommandStep3 startEventCommand = CreateProcessInstanceCommand(processId);
 
         if (data is not null)
-            startEventCommand
-                .Variables(data.ToJson());
+            startEventCommand.Variables(data.ToJson(_jsonSerializerSetting));
 
         var result = await startEventCommand
             .WithResult()
             .Send();
 
-        return JsonSerializer.Deserialize<T>(result.Variables);
+        return result.Variables.ParseObject<T>(_jsonSerializerSetting); 
     }
 
     public async Task<T?> StartEventWithResult<T>(string processId, int version, object? data = null)
     {
-        var startEventCommand = _zeebeClient.NewCreateProcessInstanceCommand()
-            .BpmnProcessId(processId)
-            .Version(version);
+        ICreateProcessInstanceCommandStep3 startEventCommand = CreateProcessInstanceCommand(processId, version);
 
         if (data is not null)
-            startEventCommand
-                .Variables(data.ToJson());
+            startEventCommand.Variables(data.ToJson(_jsonSerializerSetting));
 
         var result = await startEventCommand
             .WithResult()
             .Send();
 
-        return JsonSerializer.Deserialize<T>(result.Variables);
+        return result.Variables.ParseObject<T>(_jsonSerializerSetting);
     }
 
-    private Task Handler(IJobClient client, IJob job, MethodInfo handler, CancellationToken cancellationToken)
+    private ICreateProcessInstanceCommandStep3 CreateProcessInstanceCommand(string processId, int version = 0)
+    {
+        var startEventCommand = _zeebeClient
+            .NewCreateProcessInstanceCommand()
+            .BpmnProcessId(processId);
+
+        return version > 0 
+            ? startEventCommand.Version(version) 
+            : startEventCommand.LatestVersion();
+    }
+    
+    private Task Handler(
+        IJobClient client,
+        IJob job,
+        MethodBase handler,
+        CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
         var handlerInstance = _serviceProvider.GetService(handler.ReflectedType);
         if (handlerInstance is null)
-            throw new InvalidOperationException($"Ther is no service registered for {handler.ReflectedType}");
+            throw new InvalidOperationException($"There is no service registered for {handler.ReflectedType}");
 
         job.SetJobClient(client);
         handler.Invoke(handlerInstance, new object[] { job, cancellationToken });
         return Task.CompletedTask;
     }
+
 }

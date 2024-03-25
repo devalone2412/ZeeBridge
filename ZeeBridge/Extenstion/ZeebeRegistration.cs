@@ -13,8 +13,9 @@ namespace ZeeBridge.Extenstion;
 
 public static class ZeebeRegistration
 {
-    public static IServiceCollection AddZeeBridge(this IServiceCollection services, IConfiguration configuration,
-        Assembly[] assemblies)
+    public static IServiceCollection AddZeeBridge(this IServiceCollection services,
+        IConfiguration configuration,
+        params Assembly[] assemblies)
     {
         return services
             .AddZeebeConfig(configuration)
