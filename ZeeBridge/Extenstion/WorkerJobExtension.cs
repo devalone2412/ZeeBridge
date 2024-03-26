@@ -4,6 +4,7 @@ using Newtonsoft.Json.Linq;
 using Zeebe.Client.Api.Commands;
 using Zeebe.Client.Api.Responses;
 using Zeebe.Client.Api.Worker;
+using ZeeBridge.Models;
 
 namespace ZeeBridge.Extenstion;
 
@@ -32,15 +33,15 @@ public static class WorkerJobExtension
             throw new InvalidOperationException($"Failed to deserialize variables for job {job.Key}");
     }
 
-    public static Dictionary<string, object> GetVariables(this IJob job)
+    public static CaseInSensitiveDictionary<object> GetVariables(this IJob job)
     {
-        return job.Variables.ParseObject<Dictionary<string, object>>() ??
+        return job.Variables.ParseObject<CaseInSensitiveDictionary<object>>(_jsonSerializerSetting) ??
             throw new InvalidOperationException($"Failed to deserialize variables for job {job.Key}");
     }
 
     public static T GetHeadersInVariables<T>(this IJob job)
     {
-        Dictionary<string, object> variables = job.GetVariables();
+        CaseInSensitiveDictionary<object> variables = job.GetVariables();
 
         return variables["headers"].ToString()!.ParseObject<T>(_jsonSerializerSetting) ??
             throw new InvalidOperationException($"Failed to headers value in variables for job {job.Key}");
@@ -48,7 +49,7 @@ public static class WorkerJobExtension
 
     private static dynamic GetHeadersInVariables(this IJob job)
     {
-        Dictionary<string, object> variables = job.GetVariables();
+        CaseInSensitiveDictionary<object> variables = job.GetVariables();
         return JObject.Parse(variables["headers"].ToString()!)  
             ?? throw new InvalidOperationException($"Failed to headers value in variables for job {job.Key}");
     }
@@ -72,7 +73,7 @@ public static class WorkerJobExtension
             throw new ArgumentNullException($"{nameof(fieldName)} cannot be NULL or EMPTY");
         }
 
-        Dictionary<string, object> variables = job.GetVariables();
+        CaseInSensitiveDictionary<object> variables = job.GetVariables();
         return variables[fieldName].ToString()!.ParseObject<T>(_jsonSerializerSetting) ??
             throw new InvalidOperationException($"Failed to Data Value value in variables for job {job.Key}");
     }
