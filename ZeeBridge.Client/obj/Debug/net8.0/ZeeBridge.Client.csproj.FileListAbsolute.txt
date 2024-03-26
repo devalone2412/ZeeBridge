@@ -25,7 +25,6 @@ D:\projects\ZeeBridge\ZeeBridge\ZeeBridge.Client\obj\Debug\net8.0\staticwebasset
 D:\projects\ZeeBridge\ZeeBridge\ZeeBridge.Client\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.ZeeBridge.Client.props
 D:\projects\ZeeBridge\ZeeBridge\ZeeBridge.Client\obj\Debug\net8.0\staticwebassets.pack.json
 D:\projects\ZeeBridge\ZeeBridge\ZeeBridge.Client\obj\Debug\net8.0\scopedcss\bundle\ZeeBridge.Client.styles.css
-D:\projects\ZeeBridge\ZeeBridge\ZeeBridge.Client\obj\Debug\net8.0\ZeeBridge.Client.csproj.CopyComplete
 D:\projects\ZeeBridge\ZeeBridge\ZeeBridge.Client\obj\Debug\net8.0\ZeeBridge.Client.dll
 D:\projects\ZeeBridge\ZeeBridge\ZeeBridge.Client\obj\Debug\net8.0\refint\ZeeBridge.Client.dll
 D:\projects\ZeeBridge\ZeeBridge\ZeeBridge.Client\obj\Debug\net8.0\ZeeBridge.Client.pdb
@@ -105,3 +104,5 @@ D:\personal_projects\ZeeBridge\ZeeBridge.Client\obj\Debug\net8.0\refint\ZeeBridg
 D:\personal_projects\ZeeBridge\ZeeBridge.Client\obj\Debug\net8.0\ZeeBridge.Client.pdb
 D:\personal_projects\ZeeBridge\ZeeBridge.Client\obj\Debug\net8.0\ZeeBridge.Client.genruntimeconfig.cache
 D:\personal_projects\ZeeBridge\ZeeBridge.Client\obj\Debug\net8.0\ref\ZeeBridge.Client.dll
+D:\projects\ZeeBridge\ZeeBridge\ZeeBridge.Client\obj\Debug\net8.0\ZeeBridge.Client.sourcelink.json
+D:\projects\ZeeBridge\ZeeBridge\ZeeBridge.Client\obj\Debug\net8.0\ZeeBridg.08C3754B.Up2Date
