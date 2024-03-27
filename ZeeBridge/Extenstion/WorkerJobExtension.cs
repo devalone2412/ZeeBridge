@@ -43,8 +43,13 @@ public static class WorkerJobExtension
     {
         CaseInSensitiveDictionary<object> variables = job.GetVariables();
 
-        return variables["headers"].ToString()!.ParseObject<T>(_jsonSerializerSetting) ??
-            throw new InvalidOperationException($"Failed to headers value in variables for job {job.Key}");
+        if (variables.TryGetValue("headers", out var headerValues) == false)
+        {
+            return default(T)!;
+        }
+        
+        return headerValues.ToString()!.ParseObject<T>(_jsonSerializerSetting) 
+            ?? throw new InvalidOperationException($"Failed to headers value in variables for job {job.Key}");
     }
 
     private static dynamic GetHeadersInVariables(this IJob job)
@@ -57,8 +62,7 @@ public static class WorkerJobExtension
     public static T? GetHeaderValueInVariables<T>(this IJob job, string fieldName)
     {
         var variables = job.GetHeadersInVariables();
-        var fieldValue = variables[fieldName];
-        if (fieldValue is null)
+        if (variables[fieldName] is not { } fieldValue)
         {
             return default(T);
         }
@@ -74,8 +78,13 @@ public static class WorkerJobExtension
         }
 
         CaseInSensitiveDictionary<object> variables = job.GetVariables();
-        return variables[fieldName].ToString()!.ParseObject<T>(_jsonSerializerSetting) ??
-            throw new InvalidOperationException($"Failed to Data Value value in variables for job {job.Key}");
+        if (variables.TryGetValue(fieldName, out var fieldValue) == false)
+        {
+            return default(T)!;
+        }
+        
+        return fieldValue.ToString()!.ParseObject<T>(_jsonSerializerSetting)
+            ?? throw new InvalidOperationException($"Failed to Data Value value in variables for job {job.Key}");
     }
 
     public static bool MarkAsCompleted(this IJob job)

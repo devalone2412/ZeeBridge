@@ -7,7 +7,7 @@
         <Description>Simplify your Camunda integration with ZeeBridge, a .NET library designed to bridge the gap between worker jobs in your source code and Camunda. With its easy-to-use API and Zeebe-powered communication, ZeeBridge is the perfect solution for your Camunda connection needs.</Description>
         <PackageTags>Camunda, BPMN, Zeebe Client</PackageTags>
         <TargetFrameworks>net6.0;net8.0</TargetFrameworks>
-        <Version>1.2.0</Version>
+        <Version>1.4.0</Version>
         <PackageProjectUrl>https://github.com/devalone2412/ZeeBridge</PackageProjectUrl>
     </PropertyGroup>
 
