@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "oxT92XudGbN7qD4fFIWH7tdYk9ee5urah5gYW5cyPM3fvQIJ6iAyv2PJHEH0YSWEgsqvlrpZbZvBgQ0mlOVdgQ==",
+  "dgSpecHash": "o60m3PLNfeORCOlZ4fCTMbncyo+YWv9bsMX1vCulr8/C1IjT9+kybVXeaniFQu71nW1p3ydqIeR0fmHTTwaPBQ==",
   "success": true,
   "projectFilePath": "D:\\projects\\ZeeBridge\\ZeeBridge\\ZeeBridge.Client\\ZeeBridge.Client.csproj",
   "expectedPackageFiles": [
@@ -56,7 +56,7 @@
     "C:\\Users\\devbr\\.nuget\\packages\\system.text.json\\8.0.0\\system.text.json.8.0.0.nupkg.sha512",
     "C:\\Users\\devbr\\.nuget\\packages\\system.threading.tasks.dataflow\\8.0.0\\system.threading.tasks.dataflow.8.0.0.nupkg.sha512",
     "C:\\Users\\devbr\\.nuget\\packages\\zb-client\\2.5.0\\zb-client.2.5.0.nupkg.sha512",
-    "C:\\Users\\devbr\\.nuget\\packages\\zeebridge\\1.0.0\\zeebridge.1.0.0.nupkg.sha512"
+    "C:\\Users\\devbr\\.nuget\\packages\\zeebridge\\1.1.0\\zeebridge.1.1.0.nupkg.sha512"
   ],
   "logs": []
 }

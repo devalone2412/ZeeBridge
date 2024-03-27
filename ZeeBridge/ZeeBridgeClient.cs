@@ -74,27 +74,28 @@ public class ZeeBridgeClient : IZeeBridgeClient
         throw new NotImplementedException();
     }
 
-    public Task StartEvent(string processId, object? data = null)
+    public Task StartEvent(string processId, object? data = null, TimeSpan? requestTimeout = null)
     {
         ICreateProcessInstanceCommandStep3 startEventCommand = CreateProcessInstanceCommand(processId);
 
         if (data is not null)
             startEventCommand.Variables(data.ToJson(_jsonSerializerSetting));
 
-        return startEventCommand.Send();
+        return startEventCommand.Send(requestTimeout);
     }
 
-    public Task StartEvent(string processId, int version, object? data = null)
+    public Task StartEvent(string processId, int version, object? data = null, TimeSpan? requestTimeout = null)
     {
         ICreateProcessInstanceCommandStep3 startEventCommand = CreateProcessInstanceCommand(processId, version);
 
         if (data is not null)
             startEventCommand.Variables(data.ToJson(_jsonSerializerSetting));
 
-        return startEventCommand.Send();
+        
+        return startEventCommand.Send(requestTimeout);
     }
 
-    public async Task<T?> StartEventWithResult<T>(string processId, object? data = null)
+    public async Task<T?> StartEventWithResult<T>(string processId, object? data = null, TimeSpan? requestTimeout = null)
     {
         ICreateProcessInstanceCommandStep3 startEventCommand = CreateProcessInstanceCommand(processId);
 
@@ -103,12 +104,12 @@ public class ZeeBridgeClient : IZeeBridgeClient
 
         var result = await startEventCommand
             .WithResult()
-            .Send();
+            .Send(requestTimeout);
 
         return result.Variables.ParseObject<T>(_jsonSerializerSetting);
     }
 
-    public async Task<T?> StartEventWithResult<T>(string processId, int version, object? data = null)
+    public async Task<T?> StartEventWithResult<T>(string processId, int version, object? data = null, TimeSpan? requestTimeout = null)
     {
         ICreateProcessInstanceCommandStep3 startEventCommand = CreateProcessInstanceCommand(processId, version);
 
@@ -117,7 +118,7 @@ public class ZeeBridgeClient : IZeeBridgeClient
 
         var result = await startEventCommand
             .WithResult()
-            .Send();
+            .Send(requestTimeout);
 
         return result.Variables.ParseObject<T>(_jsonSerializerSetting);
     }

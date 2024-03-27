@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>ZeeBridge</id>
+    <version>1.2.0</version>
+    <authors>William Luc</authors>
+    <projectUrl>https://github.com/devalone2412/ZeeBridge</projectUrl>
+    <description>Simplify your Camunda integration with ZeeBridge, a .NET library designed to bridge the gap between worker jobs in your source code and Camunda. With its easy-to-use API and Zeebe-powered communication, ZeeBridge is the perfect solution for your Camunda connection needs.</description>
+    <tags>Camunda, BPMN, Zeebe Client</tags>
+    <repository type="git" commit="e3342ac5aaf5dbd200a10ed9d4b1959907b71437" />
+    <dependencies>
+      <group targetFramework="net6.0">
+        <dependency id="Microsoft.Extensions.Configuration" version="8.0.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.Hosting" version="8.0.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.Options" version="8.0.2" exclude="Build,Analyzers" />
+        <dependency id="zb-client" version="2.5.0" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework="net8.0">
+        <dependency id="Microsoft.Extensions.Configuration" version="8.0.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.Hosting" version="8.0.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.Options" version="8.0.2" exclude="Build,Analyzers" />
+        <dependency id="zb-client" version="2.5.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="D:\projects\ZeeBridge\ZeeBridge\ZeeBridge\bin\Debug\net6.0\ZeeBridge.dll" target="lib\net6.0\ZeeBridge.dll" />
+    <file src="D:\projects\ZeeBridge\ZeeBridge\ZeeBridge\bin\Debug\net8.0\ZeeBridge.dll" target="lib\net8.0\ZeeBridge.dll" />
+  </files>
+</package>

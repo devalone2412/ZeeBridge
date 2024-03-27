@@ -999,7 +999,7 @@
           "lib/net8.0/Client.dll": {}
         }
       },
-      "ZeeBridge/1.0.0": {
+      "ZeeBridge/1.1.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
@@ -2756,7 +2756,7 @@
         "zb-client.nuspec"
       ]
     },
-    "ZeeBridge/1.0.0": {
+    "ZeeBridge/1.1.0": {
       "type": "project",
       "path": "../ZeeBridge/ZeeBridge.csproj",
       "msbuildProject": "../ZeeBridge/ZeeBridge.csproj"
@@ -2766,7 +2766,7 @@
     "net8.0": [
       "Microsoft.AspNetCore.OpenApi >= 8.0.0",
       "Swashbuckle.AspNetCore >= 6.4.0",
-      "ZeeBridge >= 1.0.0"
+      "ZeeBridge >= 1.1.0"
     ]
   },
   "packageFolders": {
