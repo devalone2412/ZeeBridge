@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using System.Text.Json;
 using Zeebe.Client;
 using Zeebe.Client.Api.Responses;
 using Zeebe.Client.Api.Worker;
@@ -104,7 +103,7 @@ public class ZeeBridgeClient : IZeeBridgeClient
             .WithResult()
             .Send(requestTimeout);
 
-        return JsonSerializer.Deserialize<T>(result.Variables);
+        return result.Variables.FromJson<T>();
     }
 
     public async Task<T?> StartEventWithResult<T>(string processId, int version, object? data = null, TimeSpan? requestTimeout = null)
@@ -121,7 +120,7 @@ public class ZeeBridgeClient : IZeeBridgeClient
             .WithResult()
             .Send(requestTimeout);
 
-        return JsonSerializer.Deserialize<T>(result.Variables);
+        return result.Variables.FromJson<T>();
     }
 
     private async Task Handler(

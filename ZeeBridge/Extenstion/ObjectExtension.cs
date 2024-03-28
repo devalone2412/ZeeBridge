@@ -1,4 +1,4 @@
-﻿using System.Text.Json;
+﻿using Newtonsoft.Json;
 
 namespace ZeeBridge.Extenstion;
 
@@ -14,6 +14,11 @@ internal static class ObjectExtension
     /// <returns>A JSON string representation of the object.</returns>
     internal static string ToJson(this object obj)
     {
-        return JsonSerializer.Serialize(obj);
+        return JsonConvert.SerializeObject(obj);
+    }
+
+    internal static T FromJson<T>(this string json)
+    {
+        return JsonConvert.DeserializeObject<T>(json);
     }
 }
